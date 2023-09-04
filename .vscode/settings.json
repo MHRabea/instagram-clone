@@ -1,0 +1,4 @@
+{
+    "css.lint.unknownAtRules": "ignore",
+    "color-highlight.matchWords": true
+}
