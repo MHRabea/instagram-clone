@@ -2,39 +2,105 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LogoColor from "../images/users/Logo-color-noBackground.jpg";
 import { Login, Home } from "../components/routes";
-
+import Add from "../images/addAvatar.png";
 import { Link } from "react-router-dom";
-import { auth } from "../firebase/config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth , storage , db } from "../firebase/config";
+import { createUserWithEmailAndPassword ,updateProfile} from "firebase/auth";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
 
 export default function Register() {
-  const [userImg , setUserImg] = useState()
-  const [displayName , setDisplayName] = useState("");
+  const [userImg, setUserImg] = useState();
+  const [userName, setUserName] = useState("");
+  const [fullName , setFullName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [passsword, setPasssword] = useState("");
   const [err, setErr] = useState(false);
-  const isInvalid = passsword === "" || emailAddress === "";
-
+  const[progress , setProgress] = useState(0);
+  const[url , setUrl ] = useState("");
+  const [uploadedFile , setUploadedFile] = useState(null)
+  // const [isUploadComplete , setIsUploadComplete] = useState(false)
+  const isInvalid = passsword === "" || emailAddress === "" || userName === "" || fullName === "";
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    const email = e.target[0].value;
-    const password = e.target[1].value;
+    const userName = e.target[0].value;
+    const fullName = e.target[1].value;
+    const email = e.target[2].value;
+    const password = e.target[3].value;
+    const file = e.target[4].files[0]
+
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate(Home);
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const storageRef = ref(storage , userName);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on("state_changed" , (snapshot) => {
+
+      const percentage = (snapshot.bytesTransferred / snapshot.totalBytes)*100
+      console.log('upload is' + percentage  + '% done')
+      setProgress(percentage)
+      }, (err) =>
+      {
+        setErr(true);
+        console.log(err);
+      },()=>{
+        getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) =>{
+          
+            await updateProfile(res.user , {
+                userName,
+                photoURL : downloadURL,
+            });
+            await setDoc(doc(db, "users" , res.user.uid), {
+                userId : res.user.uid,
+                username: userName,
+                fullName: fullName,
+                following:[],
+                followers:[],
+                emailAdress:email,
+                photoURL: downloadURL,
+                dateCreated: serverTimestamp()
+            });
+            await setDoc(doc(db , "photos" ,res.user.uid),{
+                photoId : res.user.uid,
+                userId : res.user.uid,
+                imageSrc  : downloadURL,
+                caption : "",
+                likes : [],
+                comments: [
+                    {
+                        userName : "",
+                        comment : "",
+                    }
+
+                ],
+                userLatitude : "",
+                userLongitude : "",
+                dateCreated:serverTimestamp()
+            });
+            setUrl(downloadURL)
+            navigate(Home)
+        })
+      })
     } catch (err) {
       setErr(true);
       console.log("Erroe Logging in :", err);
       setEmailAddress("");
       setPasssword("");
+      setFullName("");
+      setUserName("");
+      setUserImg(null)
+    }
+    if(file){
+      setUploadedFile(file)
     }
   };
 
   useEffect(() => {
-    document.title = "Login - Insta";
+  
+    document.title = "Sign_up-Insta";
   }, []);
 
   return (
@@ -50,7 +116,9 @@ export default function Register() {
     mx-auto
     h-screen
     bg-gray-200
-    justify-center items-center"
+    justify-center
+    items-center
+    "
     >
       <div className="flex flex-row w-1/3">
         <img
@@ -72,36 +140,43 @@ export default function Register() {
         />
       </div>
       <div
-      className="
-      hover:translate-y-1 hover:scale-110
-      transition duration-75
+        className="
+      hover:translate-y-1
+      hover:scale-110
+      transition
+      duration-75
       bg-gradient-to-r from-sky-500 to-red-500
       block
       max-w-sm
       rounded-lg
       p-6
-      flex-col basis-1/2
+      flex-col
+      basis-1/2
       hover:shadow-[0_8px_5px_-4px_rgba(248,113,113,1),5px_4px_18px_2px_rgba(248,113,113)]
-      ">
+      "
+      >
         <div
-        className="
+          className="
         relative mb-6
         flex
         justify-center
         text-black-400
         hover:translate-y-1 hover:scale-110
-        ">Sign_Up</div>
+        "
+        >
+          Sign_Up
+        </div>
         <form onSubmit={handleSignUp} method="POST">
-        <div className="relative mb-6">
+          <div className="relative mb-9">
             <input
               type="text"
               aria-describedby="name"
-              aria-label="type your email address"
-              value={displayName}
+              aria-label="type your user name"
+              value={userName}
               placeholder=" "
               autoComplete="false"
               onChange={({ target }) =>
-                setDisplayName(target.value) || setErr(null)
+                setUserName(target.value) || setErr(null)
               }
               id="InputName"
               className="
@@ -169,13 +244,93 @@ export default function Register() {
               dark:peer-focus:text-primary
                 "
             >
-              Display Name
+              Enter Your Name
             </label>
           </div>
-          <div className="relative mb-6">
+          <div className="relative mb-9">
+            <input
+              type="text"
+              aria-describedby="name"
+              aria-label="type your full name"
+              value={fullName}
+              placeholder=" "
+              autoComplete="false"
+              onChange={({ target }) =>
+                setFullName(target.value) || setErr(null)
+              }
+              id="InputFullName"
+              className="
+              block
+              px-2.5
+              pb-2.5
+              pt-4
+              text-sm
+              text-gray-900
+              bg-transparent
+              rounded-lg
+              border-1
+              border-gray-300
+              appearance-none
+              dark:text-white
+              dark:border-gray-600
+              dark:focus:border-blue-500
+              focus:outline-none
+              focus:ring-0
+              focus:border-blue-600
+              peer
+              min-h-[auto]
+              hover:scale-110
+              w-full
+              duration-100
+              ease-linear
+              motion-reduce:transition-none
+              dark:active:shadow-[0_8px_5px_-4px_rgba(0,0,0),0_4px_18px_0_rgba(0,0,0)]]
+              hover:shadow-[0_8px_5px_-4px_rgba(248,113,113),0_4px_18px_0_rgba(0,0,0)]
+              focus:shadow-[0_8px_9px_-4px_rgba(0,0,0),0_4px_18px_0_rgba(0,0,0)]
+              active:shadow-[0_8px_5px_-4px_rgba(0,0,0),0_4px_18px_0_rgba(0,0,0)]
+              dark:shadow-[0_2px_5px_-4px_rgba(0,0,0)]
+              "
+            />
+            <label
+              htmlFor="InputFullName"
+              className="
+              absolute
+              text-md
+              text-neutral-300
+              dark:text-neutral-300
+              duration-100
+              transform -translate-y-9 -translate-x-3
+              peer-focus:-translate-y-9
+              peer-focus:-translate-x-5
+              peer-focus:px-4
+              peer-focus:text-white
+              peer-focus:dark:text-white
+              peer-focus:top-2
+              peer-placeholder-shown:scale-100
+              peer-placeholder-shown:translate-y-1/2
+              peer-placeholder-shown:top-0
+              peer-focus:scale-75
+              scale-75
+              top-2
+              left-3
+              z-10
+              origin-[0]
+              bg-transparent
+              px-2
+              pointer-events-none
+              ease-out
+              peer-focus:text-primary
+              motion-reduce:transition-none
+              dark:peer-focus:text-primary
+                "
+            >
+              Enter Your Full Name
+            </label>
+          </div>
+          <div className="relative mb-9">
             <input
               type="email"
-              aria-describedby="emailHelp"
+              aria-describedby="Email"
               aria-label="type your email address"
               value={emailAddress}
               placeholder=" "
@@ -249,10 +404,10 @@ export default function Register() {
               dark:peer-focus:text-primary
                 "
             >
-              Email address
+              Enter Your Email Address
             </label>
           </div>
-          <div className="relative mb-6">
+          <div className="relative mb-9">
             <input
               value={passsword}
               type="password"
@@ -288,7 +443,7 @@ export default function Register() {
               dark:shadow-[0_2px_5px_-4px_rgba(0,0,0)]"
               id="Input Password"
               placeholder=" "
-              aria-label="type your password address"
+              aria-label="type your password"
               autoComplete="false"
               onChange={({ target }) =>
                 setPasssword(target.value) || setErr(null)
@@ -302,8 +457,8 @@ export default function Register() {
               text-neutral-300
               dark:text-neutral-300
               duration-100
-              transform -translate-y-7 -translate-x-3
-              peer-focus:-translate-y-7
+              transform -translate-y-9 -translate-x-3
+              peer-focus:-translate-y-9
               peer-focus:-translate-x-5
               peer-focus:px-4
               peer-focus:text-white
@@ -327,7 +482,72 @@ export default function Register() {
               dark:peer-focus:text-primary
                 "
             >
-              Password
+              Enter a Password
+            </label>
+          </div>
+          <div
+            className="
+          relative
+          h-32
+          w-32
+          justify-items-center
+          items-center
+          flex-row
+          mx-auto
+          transition-all
+              transform
+              hover:scale-125
+              cursor-pointer
+              ease-in-out
+              "
+          >
+            <input
+              style={{ display: "none" }}
+              type="file"
+              aria-describedby="Img"
+              aria-label="type your email address"
+              value={userImg}
+              placeholder=" "
+              onChange={({ target }) =>
+                setUserImg(target.value) || setErr(null)
+              }
+              id="InputImg"
+              className="
+              bg-transparent
+              motion-reduce:transition-none
+              flex
+              "
+            />
+            <label
+              htmlFor="InputImg"
+              className="
+              transition-all
+              transform
+              hover:scale-110
+              cursor-pointer"
+            >
+              <img
+                src={Add}
+                alt="add img"
+                className="
+                cursor-pointer
+            flex
+            mx-auto
+            items-center
+            justify-center
+            bg-transparent
+            pointer-events-none
+                "
+              />
+              <span
+                className="
+                items-center
+                justify-center
+                flex
+                "
+              >
+                Add Your Photo
+              </span>
             </label>
           </div>
           <button
@@ -365,6 +585,27 @@ export default function Register() {
           >
             Sign Up
           </button>
+          {uploadedFile && (
+            <motion.div
+             className="
+            relative
+            mb-8
+            mt-5
+            ">
+             <motion.div
+             className="
+            w-full bg-gray-200 rounded-full dark:bg-gray-700
+             ">
+               <motion.div
+                
+                 className="
+                 bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
+                 style={{ width: `${progress}%`,  transition: "width 0.5s ease-in-out"}}
+                >
+                 Uploading Profile ...{progress}%
+              </motion.div>
+             </motion.div>
+    </motion.div>)}
           {err && (
             <motion.p
               initial={{ opacity: 0, scale: 0.5 }}
@@ -392,11 +633,11 @@ export default function Register() {
           ease-in-out
           "
             >
-              Invalid Email or Password
+              User Already Exist , please Login?
             </motion.p>
           )}
           <p className="mt-6 text-center text-neutral-800 dark:text-neutral-200">
-           Already Have an Account ?
+            Already Have an Account ?
             <Link
               style={err ? { color: "black" } : {}}
               to={Login}

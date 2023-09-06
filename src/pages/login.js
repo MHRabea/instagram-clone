@@ -157,7 +157,7 @@ export default function Login() {
               peer-focus:text-primary
               motion-reduce:transition-none
               dark:peer-focus:text-primary
-                ">Email address</label>
+                ">Email Address</label>
 
           </div>
           <div className="relative mb-6">
