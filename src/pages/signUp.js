@@ -4,8 +4,8 @@ import LogoColor from "../images/users/Logo-color-noBackground.jpg";
 import { Login, Home } from "../components/routes";
 import Add from "../images/addAvatar.png";
 import { Link } from "react-router-dom";
-import { auth , storage , db } from "../firebase/config";
-import { createUserWithEmailAndPassword ,updateProfile} from "firebase/auth";
+import { auth, storage, db } from "../firebase/config";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { motion } from "framer-motion";
@@ -13,15 +13,19 @@ import { motion } from "framer-motion";
 export default function Register() {
   const [userImg, setUserImg] = useState();
   const [userName, setUserName] = useState("");
-  const [fullName , setFullName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [passsword, setPasssword] = useState("");
   const [err, setErr] = useState(false);
-  const[progress , setProgress] = useState(0);
-  const[url , setUrl ] = useState("");
-  const [uploadedFile , setUploadedFile] = useState(null)
+  const [progress, setProgress] = useState(0);
+  // const [url, setUrl] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
   // const [isUploadComplete , setIsUploadComplete] = useState(false)
-  const isInvalid = passsword === "" || emailAddress === "" || userName === "" || fullName === "";
+  const isInvalid =
+    passsword === "" ||
+    emailAddress === "" ||
+    userName === "" ||
+    fullName === "";
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
@@ -30,60 +34,64 @@ export default function Register() {
     const fullName = e.target[1].value;
     const email = e.target[2].value;
     const password = e.target[3].value;
-    const file = e.target[4].files[0]
+    const file = e.target[4].files[0];
 
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
-      const storageRef = ref(storage , userName);
+      const storageRef = ref(storage, userName);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
-      uploadTask.on("state_changed" , (snapshot) => {
-
-      const percentage = (snapshot.bytesTransferred / snapshot.totalBytes)*100
-      console.log('upload is' + percentage  + '% done')
-      setProgress(percentage)
-      }, (err) =>
-      {
-        setErr(true);
-        console.log(err);
-      },()=>{
-        getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) =>{
-          
-            await updateProfile(res.user , {
-                userName,
-                photoURL : downloadURL,
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const percentage =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("upload is" + percentage + "% done");
+          setProgress(percentage);
+        },
+        (err) => {
+          setErr(true);
+          console.log(err);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+            await updateProfile(res.user, {
+              displayName: fullName,
+              photoURL: downloadURL,
             });
-            await setDoc(doc(db, "users" , res.user.uid), {
-                userId : res.user.uid,
-                username: userName,
-                fullName: fullName,
-                following:[],
-                followers:[],
-                emailAdress:email,
-                photoURL: downloadURL,
-                dateCreated: serverTimestamp()
+            await setDoc(doc(db, "users", res.user.uid), {
+              userId: res.user.uid,
+              userName,
+              displayName: fullName,
+              following: [],
+              followers: [],
+              email,
+              photoURL: downloadURL,
+              dateCreated: serverTimestamp(),
             });
-            await setDoc(doc(db , "photos" ,res.user.uid),{
-                photoId : res.user.uid,
-                userId : res.user.uid,
-                imageSrc  : downloadURL,
-                caption : "",
-                likes : [],
-                comments: [
-                    {
-                        userName : "",
-                        comment : "",
-                    }
-
-                ],
-                userLatitude : "",
-                userLongitude : "",
-                dateCreated:serverTimestamp()
+            await setDoc(doc(db, "photos", res.user.uid), {
+              photoId: res.user.uid,
+              userId: res.user.uid,
+              imageSrc: downloadURL,
+              photoURL: downloadURL,
+              displayName: fullName,
+              caption: "",
+              likes: [],
+              comments: [
+                {
+                  userName: "",
+                  comment: "",
+                },
+              ],
+              userLatitude: "",
+              userLongitude: "",
+              dateCreated: serverTimestamp(),
             });
-            setUrl(downloadURL)
-            navigate(Home)
-        })
-      })
+            // setUrl(downloadURL);
+            navigate(Home);
+          });
+        }
+      );
     } catch (err) {
       setErr(true);
       console.log("Erroe Logging in :", err);
@@ -91,15 +99,14 @@ export default function Register() {
       setPasssword("");
       setFullName("");
       setUserName("");
-      setUserImg(null)
+      setUserImg(null);
     }
-    if(file){
-      setUploadedFile(file)
+    if (file) {
+      setUploadedFile(file);
     }
   };
 
   useEffect(() => {
-  
     document.title = "Sign_up-Insta";
   }, []);
 
@@ -587,25 +594,30 @@ export default function Register() {
           </button>
           {uploadedFile && (
             <motion.div
-             className="
+              className="
             relative
             mb-8
             mt-5
-            ">
-             <motion.div
-             className="
+            "
+            >
+              <motion.div
+                className="
             w-full bg-gray-200 rounded-full dark:bg-gray-700
-             ">
-               <motion.div
-                
-                 className="
+             "
+              >
+                <motion.div
+                  className="
                  bg-blue-600 text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full"
-                 style={{ width: `${progress}%`,  transition: "width 0.5s ease-in-out"}}
+                  style={{
+                    width: `${progress}%`,
+                    transition: "width 0.5s ease-in-out",
+                  }}
                 >
-                 Uploading Profile ...{progress}%
+                  Uploading Profile ...{progress}%
+                </motion.div>
               </motion.div>
-             </motion.div>
-    </motion.div>)}
+            </motion.div>
+          )}
           {err && (
             <motion.p
               initial={{ opacity: 0, scale: 0.5 }}

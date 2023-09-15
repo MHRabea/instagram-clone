@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function  NotFound(){
+
+    useEffect(()=>{
+        document.title = "Not Found - InstaC";
+    })
     return (
         <div className="
         h-screen

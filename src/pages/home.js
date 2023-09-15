@@ -1,18 +1,37 @@
-import React from "react";
+import React, { useEffect } from "react";
+import Feed from "../components/feed";
+import Header from "../components/header";
+import Sidebar from "../components/sidebar";
 
 export default function  Home(){
+
+useEffect(()=>{
+    document.title = "Dashboared - InstaC";
+})
+
+
     return (
-        <div className="
+        <div>
+            <Header />
+            <div className="
+        max-h-full
         h-screen
+        overflow-auto 
+        overscroll-auto
+        w-screen
+        bg-gradient-to-r from-sky-500 to-red-500
         transition-transform
         ease-out
         delay-70
         duration-300
-        animate-ping
         flex
         justify-center
         items-center
-        w-full
-        ">Logged in Successfully,this is the Home page</div>
+        max-w-screen
+        ">
+           <Feed />
+           <Sidebar />
+           </div>
+        </div>
     )
 }
