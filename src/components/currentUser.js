@@ -5,8 +5,7 @@ import { memo } from "react";
   return (
     <div
       className="
-        inset-x-0
-        top-0
+       
         flex
         mb-5
         w-full
@@ -18,6 +17,7 @@ import { memo } from "react";
         ease-in-out
         duration-100
         items-center
+       
         "
     >
       <div

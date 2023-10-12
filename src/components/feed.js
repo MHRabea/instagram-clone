@@ -1,24 +1,34 @@
-// import Skeleton from "react-loading-skeleton"
-import {query , collection , onSnapshot } from "firebase/firestore";
-import { db } from "../firebase/config";
-import {useEffect ,useState , useContext} from "react";
-import useUsersData from "../firebase/usersData";
-import { AuthContext } from "../context/authcontext";
+import useFollowedUsersData from "../data/followedUsersData";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+
+import "react-loading-skeleton/dist/skeleton.css";
+import Post from "./Posts/post";
+
+export default function Feed() {
+  const { followedUsers, loading } = useFollowedUsersData();
 
 
+  return (
+    <div className="basis-3/4 px-10 overflow-auto  overflow-x-hidden h-full max-h-full rounded-sm items-center flex flex-col w-full">
+      {!loading ?(
+        followedUsers.map(followedUser => (
+          <Post followedUser={followedUser} key={followedUser.userId}  />
+        ))
 
+      ) : (
+        <SkeletonTheme baseColor="#df3b3b" highlightColor="#ddb1b1">
+          <div className="flex items-center justify-center flex-col p-4">
+            <Skeleton className="h-96 w-96 mb-4" animation="wave" />
+            <Skeleton className="h-96 w-96 mb-4" animation="wave" />
+            <Skeleton className="h-96 w-96 mb-4" animation="wave" />
+            <Skeleton className="h-96 w-96 mb-4" animation="wave" />
+            <Skeleton className="h-96 w-96 mb-4" animation="wave" />
+            <Skeleton className="h-96 w-96 mb-4" animation="wave" />
+            <Skeleton className="h-96 w-96 mb-4" animation="wave" />
+          </div>
+        </SkeletonTheme>
+      )}
 
-export default function Feed(){
-    const{currentUser} = useContext(AuthContext);
-
-    const usersData = useUsersData()
-    console.log(usersData)
-    const value = currentUser.uid
-    const filteredData = usersData.filter((item ) => item.userId !== value)
-    console.log(filteredData)
-    return (
-        <div className="basis-3/4 pl-5"> 
-            Feed
-        </div>
-    )
+    </div>
+  );
 }

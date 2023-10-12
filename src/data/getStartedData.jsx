@@ -1,5 +1,5 @@
 import { addDoc, collection } from "firebase/firestore";
-import { db } from "./config";
+import { db } from "../firebase/config";
 
 export function DataBase() {
 
@@ -101,7 +101,7 @@ export function DataBase() {
   addDoc(collection(db , "photos"),{
         photoId: i,
         userId: Users[i].userId,
-        imageSrc: Users[i].photoURL,
+        imageSrc: [Users[i].photoURL],
         displayName:Users[i].displayName,
         caption: '',
         likes: [],

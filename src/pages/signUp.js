@@ -67,19 +67,31 @@ export default function Register() {
               followers: [],
               email,
               photoURL: downloadURL,
+              photoId: res.user.uid,
+              imageSrc: [downloadURL],
+              caption: "",
+              likes: [],
+              comments: [
+                {
+                  displayName: "",
+                  comment: "",
+                },
+              ],
+              userLatitude: "",
+              userLongitude: "",
               dateCreated: serverTimestamp(),
             });
             await setDoc(doc(db, "photos", res.user.uid), {
               photoId: res.user.uid,
               userId: res.user.uid,
-              imageSrc: downloadURL,
+              imageSrc: [downloadURL],
               photoURL: downloadURL,
               displayName: fullName,
               caption: "",
               likes: [],
               comments: [
                 {
-                  userName: "",
+                  displyName: "",
                   comment: "",
                 },
               ],

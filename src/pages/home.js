@@ -16,8 +16,7 @@ useEffect(()=>{
             <div className="
         max-h-full
         h-screen
-        overflow-auto 
-        overscroll-auto
+        overflow-auto
         w-screen
         bg-gradient-to-r from-sky-500 to-red-500
         transition-transform
@@ -25,7 +24,6 @@ useEffect(()=>{
         delay-70
         duration-300
         flex
-        justify-center
         items-center
         max-w-screen
         ">

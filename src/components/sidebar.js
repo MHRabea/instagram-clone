@@ -31,7 +31,7 @@ function Sidebar() {
       h-full
       max-h-full
       w-full
-      items-center
+      items-center overflow-auto overflow-x-hidden
     "
     >
       {!userData.Loading ? (
@@ -58,7 +58,7 @@ function Sidebar() {
         ease-in-out
         duration-100
         items-center
-        justify-center
+        justify-center overflow-auto
         "
           >
             <Skeleton

@@ -33,6 +33,7 @@ export default function Header() {
              max-w-screen
              justify-between
              px-3
+             hover:scale-105 transition ease-in-out
              "
         >
           <div className="flex items-center  py-3 px-3">
@@ -45,11 +46,9 @@ export default function Header() {
                  mr-3 h-6 sm:h-9
                  hover:transition-all
                  hover:ease-in-out
-                 hover:scale-125
+                 hover:scale-150
                  transition
                  ease-in-out
-                 hover:translate-y-1
-                 hover:scale-
                  pr-4
                  overflow-visible
                  drop-shadow-2xl
@@ -58,7 +57,7 @@ export default function Header() {
                 alt="InstaC"
               />
             </a>
-            <Link to={`/p/${currentUser.displayName}`} className="flex items-center transition ease-in-out hover:scale-110 ">
+            <Link to={`/p/${currentUser.displayName}`} className="flex items-center transition ease-in-out hover:scale-125 ">
               <img
                 src={currentUser.photoURL}
                 alt="user img"

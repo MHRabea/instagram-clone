@@ -1,4 +1,5 @@
 {
     "css.lint.unknownAtRules": "ignore",
-    "color-highlight.matchWords": true
+    "color-highlight.matchWords": true,
+    "editor.fontSize": 11
 }

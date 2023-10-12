@@ -6,6 +6,7 @@ import {
   doc,
   updateDoc,
   arrayUnion,
+  orderBy,
 } from "firebase/firestore";
 import { AuthContext } from "../context/authcontext";
 import { db } from "../firebase/config";
@@ -16,10 +17,9 @@ import "react-loading-skeleton/dist/skeleton.css";
 export default function Suggested({ following }) {
   const [data, setData] = useState([]);
   const { currentUser } = useContext(AuthContext);
-  // const [followed, setFollowed] = useState();
 
   useEffect(() => {
-    const q = query(collection(db, "users"));
+    const q = query(collection(db, "users"), orderBy("displayName", "asc"));
     onSnapshot(q, (querySnapshot) => {
       const usersData = [];
       querySnapshot.forEach((doc) => {
@@ -47,21 +47,12 @@ export default function Suggested({ following }) {
   }
 
   let value = currentUser.uid;
-  console.log(data);
   const filteredData = data.filter((item) => {
     return item.userId !== value;
   });
-  console.log(filteredData);
   const filteredFollowings = filteredData.filter(
     (itom) => !following.includes(itom.userId)
   );
-
-  console.log(filteredFollowings);
-
-  // const Followings = filteredData.map((items) => items.following.filter((item) => !following.includes(item)))
-  // console.log(Followings)
-  // const filter = Followings.map(innerArray => innerArray.filter((item) =>!following.includes(item)))
-  // console.log(filter)
   return (
     <div
       className="
@@ -73,6 +64,7 @@ export default function Suggested({ following }) {
           w-full
           border-l
           py-5
+          space-y-4 
         "
     >
       <div>Suggested For You</div>
@@ -81,10 +73,11 @@ export default function Suggested({ following }) {
           <div
             key={uuid()}
             className="flex
-        flex-col
+            space-x-4
+            w-full
         mx-auto
         items-center
-        px-7
+        pb-3
       "
           >
             <Link
@@ -128,6 +121,7 @@ export default function Suggested({ following }) {
             ease-in-out
             text-xs
             pl-2
+            mb-2
               "
                 >
                   {dataItem.displayName}
@@ -143,7 +137,7 @@ export default function Suggested({ following }) {
         transition
         ease-in-out
         hover:scale-125
-        flex cursor-pointer shadow-lg px-4 hover:shadow-2xl"
+        flex cursor-pointer shadow-lg px-4 hover:shadow-2xl mb-3"
             >
               follow
             </button>

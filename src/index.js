@@ -8,11 +8,8 @@ import { AuthContextProvider } from "./context/authcontext";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <AuthContextProvider>
-    
       <App />
- 
   </AuthContextProvider>
- 
 );
 
 
