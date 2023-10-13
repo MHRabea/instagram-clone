@@ -1,58 +1,36 @@
-import { useState, useEffect, useContext } from "react";
 import {
-  query,
-  collection,
-  onSnapshot,
   doc,
   updateDoc,
   arrayUnion,
-  orderBy,
 } from "firebase/firestore";
-import { AuthContext } from "../context/authcontext";
+import useUnfollowedUsersData from "../data/unfollowedUsersData";
+import useUserData from "../data/currentUserData";
 import { db } from "../firebase/config";
 import { Link } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import "react-loading-skeleton/dist/skeleton.css";
 
 export default function Suggested({ following }) {
-  const [data, setData] = useState([]);
-  const { currentUser } = useContext(AuthContext);
+  const {unfollowedUsers, loading } = useUnfollowedUsersData()
+  const currentUser = useUserData()
+  console.log(unfollowedUsers)
 
-  useEffect(() => {
-    const q = query(collection(db, "users"), orderBy("displayName", "asc"));
-    onSnapshot(q, (querySnapshot) => {
-      const usersData = [];
-      querySnapshot.forEach((doc) => {
-        usersData.push(doc.data());
-        setData(usersData);
-      });
-    });
-  }, []);
+  if(loading){
+    return
+  }
 
   async function handleFollowing(){
     const buttonValue = document.getElementById("button").value;
-    const userRef = doc(db, "users" , currentUser.uid);
+    const userRef = doc(db, "users" , currentUser.userId);
     await updateDoc(userRef, {
       following: arrayUnion(buttonValue)
     })
     const followedRef = doc(db , 'users' , buttonValue)
     await updateDoc(followedRef, {
-      followers: arrayUnion(currentUser.uid)
+      followers: arrayUnion(currentUser.userId)
     })
 
   }
-
-  if (currentUser.Loading) {
-    return;
-  }
-
-  let value = currentUser.uid;
-  const filteredData = data.filter((item) => {
-    return item.userId !== value;
-  });
-  const filteredFollowings = filteredData.filter(
-    (itom) => !following.includes(itom.userId)
-  );
   return (
     <div
       className="
@@ -68,7 +46,7 @@ export default function Suggested({ following }) {
         "
     >
       <div>Suggested For You</div>
-      {filteredFollowings.map((dataItem) => {
+      {unfollowedUsers.map((unfollowedUser) => {
         return (
           <div
             key={uuid()}
@@ -81,7 +59,7 @@ export default function Suggested({ following }) {
       "
           >
             <Link
-              to={`/p/${dataItem.fullName}`}
+              to={`/p/${unfollowedUser.fullName}`}
               className="flex items-center mb-5 mt-5 mx-auto flex-col
           transition
         ease-in-out
@@ -89,7 +67,7 @@ export default function Suggested({ following }) {
           "
             >
               <img
-                src={dataItem.photoURL}
+                src={unfollowedUser.photoURL}
                 alt="user img"
                 className="
                 transition
@@ -113,7 +91,7 @@ export default function Suggested({ following }) {
             font-bold
             "
                 >
-                  {dataItem.userName}
+                  {unfollowedUser.userName}
                 </p>
                 <p
                   className="
@@ -124,13 +102,13 @@ export default function Suggested({ following }) {
             mb-2
               "
                 >
-                  {dataItem.displayName}
+                  {unfollowedUser.displayName}
                 </p>
               </div>
             </Link>
             <button
             id="button"
-            value={dataItem.userId}
+            value={unfollowedUser.userId}
             onClick={handleFollowing}
               type="button"
               className="

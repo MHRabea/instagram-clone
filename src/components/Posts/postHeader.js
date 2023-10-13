@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 export default function PostHeader({followedUser}) {
 
   return (
-    <div className=" items-center bg-gradient-to-r from-sky-400 to-red-500 w-full transition ease-in-out">
+    <div className=" rounded-t-lg items-center bg-gradient-to-r from-sky-400 to-red-500 w-full transition ease-in-out">
         <Link
         key={uuidv4()}
           to={`/p/${followedUser.fullName}`}

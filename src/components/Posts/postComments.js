@@ -1,25 +1,34 @@
 import { useState } from "react"
 import {formatDistance} from "date-fns"
 import { Link } from "react-router-dom"
- 
+import {v4 as uuidv4} from "uuid"
+import AddComment from "./addComment";
 
-export default function PostComment ({docId , comments: totalComments , posted , commentInput }) {
+
+export default function PostComment ({docId , comments: totalComments , createdAt , commentInput }) {
     const [comments  , setComments] = useState(totalComments)
     return (
-        <div className="items-center px-2 py-1 w-full">
+        <div className="items-center rounded-b-lg w-full bg-gradient-to-r from-sky-400 to-red-500">
             {comments.length >= 1 && (
-                <p className="text-sm mb-1 cursor-pointer">
+                <p className="px-2 text-sm mb-1 cursor-pointer uppercase text-gray-300">
                     View all {comments.length} comments
                 </p>
             )}
             {comments.slice(0 , 3 ).map(comment =>(
-                <p key={comment.comment - comment.displayName} className="mb-1">
+                <p key={uuidv4} className=" px-2 mb-1">
                     <Link to={`/p/${comment.displayName}`} className="space-x-1">
-                        <span>{comment.displayName} :</span>
+                        <span className="font-bold">{comment.displayName} :</span>
                         <span>{comment.comment}</span>
                     </Link>
                 </p>
             ))}
+            <p className="px-2 mb-2 text-xs text-gray-200 uppercase">{formatDistance(createdAt.seconds , createdAt.nanoseconds , new Date())} ago</p>
+            <AddComment 
+            docId={docId}
+            comments={comments}
+            setComments={setComments}
+            commentInput={commentInput}
+             />
         </div>
     )
 }

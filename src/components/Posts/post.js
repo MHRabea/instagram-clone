@@ -9,13 +9,14 @@ export default function Post({ followedUser}) {
 
   const comment = useRef(null);
   const handleFocus = () => comment.current.focus()
+  console.log(followedUser.dateCreated)
   return (
-    <div className="  h-fit max-h-full rounded  w-full mb-4">
+    <div className=" rounded  w-full mb-4">
       <PostHeader followedUser={followedUser} />
       <PostImage followedUser={followedUser} Images={followedUser.imageSrc} />
       <Actions likedPhoto ={followedUser.likedPhoto} userId = {followedUser.userId} docId = {followedUser.photoId}  totalLikes = {followedUser.likes.length} handleFocus = {handleFocus} />
       <PostFooter caption= {followedUser.caption} Name = {followedUser.userName}/>
-      <PostComment docId = {followedUser.photoId}  comments = {followedUser.comments}  posted = {followedUser.dateCreated} commentInput = {comment}/>
+      <PostComment docId = {followedUser.photoId}  comments = {followedUser.comments}  createdAt = {followedUser.dateCreated} commentInput = {comment}/>
     </div>
   );
 }
