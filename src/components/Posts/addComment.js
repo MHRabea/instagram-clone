@@ -10,8 +10,8 @@ export default function AddComment({
   commentInput,
 }) {
   const [comment, setComment] = useState("");
-  const currentUser = useUserData();
-  const displayName= currentUser.displayName 
+  const currentUserData = useUserData();
+  const displayName= currentUserData.displayName 
 
   const handleComment = (e) => {
     e.preventDefault();

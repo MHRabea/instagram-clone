@@ -8,7 +8,7 @@ import { db } from "../firebase/config";
 export default function useUserData() {
   const { currentUser } = useContext(AuthContext);
   const [currentUserData, setCurrentUserData] = useState([]);
-  // const [isLoading , setIsLoading] = useState(true);
+  const [isLoading , setIsLoading] = useState(true);
 
   useEffect(() => {
     if (currentUser.Loading) {
@@ -25,7 +25,7 @@ export default function useUserData() {
       } catch (error) {
         console.log( 'error fetching data' ,error)
       } finally {
-        // setIsLoading(false)
+        setIsLoading(false)
       }
     }
     fetchData();
@@ -34,7 +34,7 @@ export default function useUserData() {
     }
   }, [currentUser]);
 
-  return currentUserData; 
+  return {currentUserData, isLoading}; 
 
 }
 

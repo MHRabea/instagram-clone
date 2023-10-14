@@ -9,7 +9,6 @@ export default function Post({ followedUser}) {
 
   const comment = useRef(null);
   const handleFocus = () => comment.current.focus()
-  console.log(followedUser.dateCreated)
   return (
     <div className=" rounded  w-full mb-4">
       <PostHeader followedUser={followedUser} />

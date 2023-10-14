@@ -12,8 +12,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 
 export default function Suggested({ following }) {
   const {unfollowedUsers, loading } = useUnfollowedUsersData()
-  const currentUser = useUserData()
-  console.log(unfollowedUsers)
+  const currentUserData = useUserData()
 
   if(loading){
     return
@@ -21,13 +20,13 @@ export default function Suggested({ following }) {
 
   async function handleFollowing(){
     const buttonValue = document.getElementById("button").value;
-    const userRef = doc(db, "users" , currentUser.userId);
+    const userRef = doc(db, "users" , currentUserData.userId);
     await updateDoc(userRef, {
       following: arrayUnion(buttonValue)
     })
     const followedRef = doc(db , 'users' , buttonValue)
     await updateDoc(followedRef, {
-      followers: arrayUnion(currentUser.userId)
+      followers: arrayUnion(currentUserData.userId)
     })
 
   }

@@ -86,30 +86,55 @@ function Sidebar() {
         />
       ) : (
         <SkeletonTheme baseColor="#df3b3b" highlightColor="#ddb1b1 ">
-          <div className="flex flex-col justify-center items-center">
-            <Skeleton count={1} className="mb-4 w-48 h-3" />
-            <Skeleton count={1} className=" mb-3 rounded-full w-14 h-14" />
-            <Skeleton count={1} className="mb-4 w-28 h-3" />
-            <Skeleton count={1} className="mb-4 w-20 h-3" />
-            <Skeleton count={1} className="mb-4 w-16 h-3" />
+          <Skeleton count={1} className="mb-4 w-32 h-3" />
+          <div className="flex items-center space-x-8">
+            <div className="flex flex-col justify-center items-center">
+              <Skeleton count={1} className=" mb-3 rounded-full w-14 h-14" />
+              <Skeleton count={1} className="mb-4 w-28 h-3" />
+              <Skeleton count={1} className="mb-4 w-20 h-3" />
+            </div>
+            <div className="flex">
+              <Skeleton count={1} className="mb-4 w-16 h-5" />
+            </div>
           </div>
-          <div className="flex flex-col justify-center items-center">
-            <Skeleton count={1} className=" mb-3 rounded-full w-14 h-14" />
-            <Skeleton count={1} className="mb-4 w-28 h-3" />
-            <Skeleton count={1} className="mb-4 w-20 h-3" />
-            <Skeleton count={1} className="mb-4 w-16 h-3" />
+          <div className="flex items-center space-x-8">
+            <div className="flex flex-col justify-center items-center">
+              <Skeleton count={1} className=" mb-3 rounded-full w-14 h-14" />
+              <Skeleton count={1} className="mb-4 w-28 h-3" />
+              <Skeleton count={1} className="mb-4 w-20 h-3" />
+            </div>
+            <div className="flex">
+              <Skeleton count={1} className="mb-4 w-16 h-5" />
+            </div>
           </div>
-          <div className="flex flex-col justify-center items-center">
-            <Skeleton count={1} className=" mb-3 rounded-full w-14 h-14" />
-            <Skeleton count={1} className="mb-4 w-28 h-3" />
-            <Skeleton count={1} className="mb-4 w-20 h-3" />
-            <Skeleton count={1} className="mb-4 w-16 h-3" />
+          <div className="flex items-center space-x-8">
+            <div className="flex flex-col justify-center items-center">
+              <Skeleton count={1} className=" mb-3 rounded-full w-14 h-14" />
+              <Skeleton count={1} className="mb-4 w-28 h-3" />
+              <Skeleton count={1} className="mb-4 w-20 h-3" />
+            </div>
+            <div className="flex">
+              <Skeleton count={1} className="mb-4 w-16 h-5" />
+            </div>
           </div>
-          <div className="flex flex-col justify-center items-center">
-            <Skeleton count={1} className=" mb-3 rounded-full w-14 h-14" />
-            <Skeleton count={1} className="mb-4 w-28 h-3" />
-            <Skeleton count={1} className="mb-4 w-20 h-3" />
-            <Skeleton count={1} className="mb-4 w-16 h-3" />
+          <div className="flex items-center space-x-8">
+            <div className="flex flex-col justify-center items-center">
+              <Skeleton count={1} className=" mb-3 rounded-full w-14 h-14" />
+              <Skeleton count={1} className="mb-4 w-28 h-3" />
+              <Skeleton count={1} className="mb-4 w-20 h-3" />
+            </div>
+            <div className="flex">
+              <Skeleton count={1} className="mb-4 w-16 h-5" />
+            </div>
+          </div><div className="flex items-center space-x-8">
+            <div className="flex flex-col justify-center items-center">
+              <Skeleton count={1} className=" mb-3 rounded-full w-14 h-14" />
+              <Skeleton count={1} className="mb-4 w-28 h-3" />
+              <Skeleton count={1} className="mb-4 w-20 h-3" />
+            </div>
+            <div className="flex">
+              <Skeleton count={1} className="mb-4 w-16 h-5" />
+            </div>
           </div>
         </SkeletonTheme>
       )}

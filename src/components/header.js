@@ -1,14 +1,15 @@
-import { useContext } from "react";
 import Logo from "../images/users/Logo-black-nobackground.jpg";
 import { Home, Login } from "../components/routes";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/authcontext";
 import { Link } from "react-router-dom";
+import useUserData from "../data/currentUserDataWithLoading";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 export default function Header() {
-  const { currentUser } = useContext(AuthContext);
+  const { currentUserData, isLoaing } = useUserData();
 
   // console.log(currentUser);
   const Navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function Header() {
     });
   };
 
-  return (
+  return !isLoaing ? (
     <div>
       <header>
         <div
@@ -57,9 +58,12 @@ export default function Header() {
                 alt="InstaC"
               />
             </a>
-            <Link to={`/p/${currentUser.displayName}`} className="flex items-center transition ease-in-out hover:scale-125 ">
+            <Link
+              to={`/p/${currentUserData.displayName}`}
+              className="flex items-center transition ease-in-out hover:scale-125 "
+            >
               <img
-                src={currentUser.photoURL}
+                src={currentUserData.photoURL}
                 alt="user img"
                 className="
                 transition
@@ -111,31 +115,36 @@ export default function Header() {
               </svg>
             </button>
           </div>
-
-          {/* <div className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
-                <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-                    <li>
-                        <a href="/" className="block py-2 pr-4 pl-3 text-white rounded bg-primary-700 lg:bg-transparent lg:text-primary-700 lg:p-0 dark:text-white" aria-current="page">Home</a>
-                    </li>
-                    <li>
-                        <a href="/" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Company</a>
-                    </li>
-                    <li>
-                        <a href="/" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Marketplace</a>
-                    </li>
-                    <li>
-                        <a href="/" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Features</a>
-                    </li>
-                    <li>
-                        <a href="/" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Team</a>
-                    </li>
-                    <li>
-                        <a href="/" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-primary-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-                    </li>
-                </ul>
-            </div> */}
         </div>
       </header>
     </div>
+  ) : (
+    <header>
+      <div
+        className=" lg:px-6 py-2.5
+             bg-gradient-to-r
+             from-sky-500 to-red-500
+             flex
+             flex-row
+             items-center
+             mx-auto
+             max-w-screen
+             justify-between
+             px-3
+             "
+      >
+        <SkeletonTheme baseColor="#df3b3b" highlightColor="#ddb1b1">
+          <div className="flex items-center space-x-2">
+            <Skeleton count={1} className=" w-14 h-14" />
+            <div className="flex flex-col">
+              <Skeleton count={1} className=" w-14 h-6" />
+              <Skeleton count={1} className=" w-14 h-2" />
+            </div>
+            <Skeleton count={1} className="h-14 w-14 rounded-full" />
+          </div>
+          <Skeleton count={1} className="w-8 h-8" />
+        </SkeletonTheme>
+      </div>
+    </header>
   );
 }
