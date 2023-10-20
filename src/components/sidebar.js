@@ -24,6 +24,7 @@ function Sidebar() {
   return (
     <div
       className="
+      container
       px-7
       flex
       flex-col

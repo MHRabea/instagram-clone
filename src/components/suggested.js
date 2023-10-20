@@ -33,6 +33,7 @@ export default function Suggested({ following }) {
   return (
     <div
       className="
+      container
           mx-auto
           flex
           flex-col
@@ -58,7 +59,7 @@ export default function Suggested({ following }) {
       "
           >
             <Link
-              to={`/p/${unfollowedUser.fullName}`}
+              to={`/p/${unfollowedUser.displayName}`}
               className="flex items-center mb-5 mt-5 mx-auto flex-col
           transition
         ease-in-out

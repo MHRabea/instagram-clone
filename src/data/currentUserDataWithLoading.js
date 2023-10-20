@@ -38,12 +38,3 @@ export default function useUserData() {
 
 }
 
-
-//  useEffect(() => {
-//   if (currentUser.Loading) {
-//     return;
-//   }
-//   onSnapshot(doc(db, "users", currentUser.uid), (doc) => {
-//     setUserData(doc.data());
-//   });
-// }, [currentUser]);

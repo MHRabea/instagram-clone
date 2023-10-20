@@ -5,9 +5,10 @@ import { db } from "../firebase/config";
 
 
 
-export default function useUserData() {
+export default function useUserPhotosData() {
   const { currentUser } = useContext(AuthContext);
-  const [currentUserData, setCurrentUserData] = useState([]);
+  const [currentUserPhotos, setCurrentUserPhotos] = useState([]);
+//   const [isLoading , setIsLoading] = useState(true);
 
   useEffect(() => {
     if (currentUser.Loading) {
@@ -19,12 +20,11 @@ export default function useUserData() {
       try {
         const snapshot = await getDoc(docRef);
         if(snapshot.exists()){
-          setCurrentUserData(snapshot.data())
+          setCurrentUserPhotos(snapshot.data().imageSrc)
         }
       } catch (error) {
         console.log( 'error fetching data' ,error)
-      } finally {
-      }
+      } 
     }
     fetchData();
     return () => {
@@ -32,7 +32,8 @@ export default function useUserData() {
     }
   }, [currentUser]);
 
-  return currentUserData; 
+
+  return currentUserPhotos; 
 
 }
 

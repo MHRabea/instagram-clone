@@ -1,19 +1,22 @@
-import useFollowedUsersData from "../data/followedUsersData";
+// import useFollowedUsersData from "../data/followedUsersData";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import {v4 as uuid} from "uuid";
+import usePhotosData from "../data/photosData";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import Post from "./Posts/post";
 
 export default function Feed() {
-  const { followedUsers, loading } = useFollowedUsersData();
+  // const { followedUsers, loading } = useFollowedUsersData();
+  const {data , loading} = usePhotosData();
 
   return (
-    <div className="basis-3/4 px-10 overflow-auto  overflow-x-hidden h-full max-h-full rounded-sm items-center flex flex-col w-full">
+    <div className="container basis-3/4 px-10 overflow-auto  overflow-x-hidden h-full max-h-full rounded-sm items-center flex flex-col w-full">
       {!loading ? (
-        followedUsers.map((followedUser) => (
-          <Post followedUser={followedUser} key={followedUser.userId} />
+        data.map((photo) => (
+          <Post photosData ={photo} key={uuid()} />
         ))
-      ) : (
+      ) : ( 
         <SkeletonTheme baseColor="#df3b3b" highlightColor="#ddb1b1">
           <div className="flex flex-col w-full space-y-2">
             <div className="flex w-full items-center space-x-3">

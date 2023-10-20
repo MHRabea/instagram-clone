@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { memo } from "react";
 
- function CurrentUser({ userName, fullName, userId, photoURL }) {
+
+
+function CurrentUser({ userName, fullName, userId, photoURL }) {
+
   return (
     <div
       className="
-       
         flex
         mb-5
         w-full
@@ -17,15 +19,16 @@ import { memo } from "react";
         ease-in-out
         duration-100
         items-center
+        pb-5
        
         "
     >
       <div
         className="flex items-center
-        mx-auto
+        flex-col
       transition
       ease-in-out
-      hover:scale-110
+      hover:scale-110 mx-auto
       "
       >
         <Link
@@ -72,6 +75,7 @@ import { memo } from "react";
             </p>
           </div>
         </Link>
+       
       </div>
     </div>
   );

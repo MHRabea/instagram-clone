@@ -1,24 +1,23 @@
-import { query, collection, onSnapshot, orderBy } from "firebase/firestore";
+import { query, collection , getDocs } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useEffect, useState } from "react";
 import useUserData from "./currentUserData";
 
-export default function useFollowedPhotosData() {
+export default function useFollowedUsersIds() {
   const currentUserData = useUserData();
   const [data, setData] = useState([]);
-  const [loading , setLoading] = useState(true);
+  const [isLoading , setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const q = query(collection(db, "users") , orderBy("dateCreated" , "desc"));
-    onSnapshot(q, (querySnapshot) => {
-      const photosData = [];
-      querySnapshot.forEach((doc) => {
-        photosData.push({...doc.data()});
-      });
-      setData(photosData);
-      setLoading(false);
-    });
+        const q = query(collection(db, "users"));
+        const snapShot = await getDocs(q)
+        const docs = []
+        snapShot.forEach(doc => {
+          docs.push(doc.data());
+        })
+        setData(docs)
+        setIsLoading(false)
       } catch (error) {
         console.log("Error Fetching Data" ,error)
       }
@@ -26,10 +25,11 @@ export default function useFollowedPhotosData() {
    fetchData();
   }, []);
   const filteredData = data.filter((item) => item.userId !== currentUserData.userId && currentUserData.following && currentUserData.following.includes(item.userId));
-  const photosData= filteredData.map((item) => {
-    return item.imageSrc.sort()
+  const idsData= filteredData.map((item) => {
+    return item.userId
   })
-  return {photosData,loading};
+  return {idsData , isLoading}; 
+  
 }
 
 

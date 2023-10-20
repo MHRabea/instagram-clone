@@ -5,17 +5,17 @@ import { useRef } from "react";
 import PostFooter from "./postFooter";
 import PostComment from "./postComments";
 
-export default function Post({ followedUser}) {
+export default function Post({ photosData}) {
 
   const comment = useRef(null);
   const handleFocus = () => comment.current.focus()
   return (
     <div className=" rounded  w-full mb-4">
-      <PostHeader followedUser={followedUser} />
-      <PostImage followedUser={followedUser} Images={followedUser.imageSrc} />
-      <Actions likedPhoto ={followedUser.likedPhoto} userId = {followedUser.userId} docId = {followedUser.photoId}  totalLikes = {followedUser.likes.length} handleFocus = {handleFocus} />
+      <PostHeader photosData = {photosData}/>
+      <PostImage photosData={photosData} Image={photosData.imageSrc} />
+      {/* <Actions likedPhoto ={followedUser.likedPhoto} userId = {followedUser.userId} docId = {followedUser.photoId}  totalLikes = {followedUser.likes.length} handleFocus = {handleFocus} />
       <PostFooter caption= {followedUser.caption} Name = {followedUser.userName}/>
-      <PostComment docId = {followedUser.photoId}  comments = {followedUser.comments}  createdAt = {followedUser.dateCreated} commentInput = {comment}/>
+      <PostComment docId = {followedUser.photoId}  comments = {followedUser.comments}  createdAt = {followedUser.dateCreated} commentInput = {comment}/> */}
     </div>
   );
 }

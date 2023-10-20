@@ -1,10 +1,8 @@
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useEffect, useState } from "react";
-import useUserData from "./currentUserData";
 
 export default function useUsersData() {
-  const currentUserData = useUserData();
   const [data, setData] = useState([]);
   useEffect(() => {
     const q = query(collection(db, "users"));
@@ -16,7 +14,6 @@ export default function useUsersData() {
       setData(usersData);
     });
   }, []);
-  const filteredData = data.filter((item) => item.userId !== currentUserData.userId );
-  return filteredData;
+  return data;
 }
 

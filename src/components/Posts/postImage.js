@@ -1,7 +1,7 @@
-export default function PostImage({ followedUser, key, Images }) {
+export default function PostImage({ key, Image }) {
   return (
     <div key={key} className="flex items-center flex-col transition ease-in-out hover:scale-105">
-      <img className="h-full w-full rounded-sm" src={Images[1]} alt="postedImg" />
+      <img className="h-full w-full rounded-sm" src={Image} alt="postedImg" />
     </div>
   );
 }
