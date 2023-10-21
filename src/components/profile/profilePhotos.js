@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 
 export default function ProfilePhotos({ photos}) {
-  return (
-    <div className="grid grid-cols-4 gap-4 grid-flow-dense">{
+  return photos ? (
+    <div className="grid grid-cols-4 gap-4 grid-flow-dense ">{ 
         photos.map(photo => (
             <div key={uuidv4()} className="relative group">
                 <img src={photo.imageSrc} alt={photo.caption} className="w-96 h-96"/>
@@ -42,5 +42,5 @@ export default function ProfilePhotos({ photos}) {
             </div>
         ))
     }</div>
-  )
+  ) : (<div>No Posts Yet</div>)
 }

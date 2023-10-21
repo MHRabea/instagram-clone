@@ -18,9 +18,7 @@ export default function Register() {
   const [passsword, setPasssword] = useState("");
   const [err, setErr] = useState(false);
   const [progress, setProgress] = useState(0);
-  // const [url, setUrl] = useState("");
   const [uploadedFile, setUploadedFile] = useState(null);
-  // const [isUploadComplete , setIsUploadComplete] = useState(false)
   const isInvalid =
     passsword === "" ||
     emailAddress === "" ||
