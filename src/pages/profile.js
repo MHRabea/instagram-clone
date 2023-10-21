@@ -6,10 +6,12 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import useProfileUser from "../data/profileUserData";
 import useUserData from "../data/currentUserData";
+import useProfileUserPhotos from "../data/profileUserPhotosData";
 
 export default function Profile() {
   const { username } = useParams();
   const { profileUserData, isLoading } = useProfileUser(username);
+  const photosData = useProfileUserPhotos(username)
   const currentUser = useUserData();
 
   const Navigate = useNavigate();
@@ -30,6 +32,7 @@ export default function Profile() {
         loggedInUser={currentUser}
         username={username}
         profileUserData={profileUserData[0]}
+        profileUserPhotos ={photosData.profileUserPhotos}
       />
     </div>
   ) : (

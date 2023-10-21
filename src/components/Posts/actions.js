@@ -8,6 +8,7 @@ export default function Actions({
   likedPhoto,
   handleFocus,
   userId,
+  docId
 }) {
   const [liked, setLiked] = useState(likedPhoto);
   const [likes, setLikes] = useState(totalLikes);
@@ -15,8 +16,8 @@ export default function Actions({
 
   const handleLiked = async () => {
     setLiked((liked) => !liked);
-    const userRef = doc(db, "users", userId);
-    await updateDoc(userRef, {
+    const photoRef = doc(db, "photos", docId);
+    await updateDoc(photoRef, {
       likes: liked
         ? arrayRemove(currentUserData.userId)
         : arrayUnion(currentUserData.userId),

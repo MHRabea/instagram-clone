@@ -13,9 +13,9 @@ export default function Post({ photosData}) {
     <div className=" rounded  w-full mb-4">
       <PostHeader photosData = {photosData}/>
       <PostImage photosData={photosData} Image={photosData.imageSrc} />
-      {/* <Actions likedPhoto ={followedUser.likedPhoto} userId = {followedUser.userId} docId = {followedUser.photoId}  totalLikes = {followedUser.likes.length} handleFocus = {handleFocus} />
-      <PostFooter caption= {followedUser.caption} Name = {followedUser.userName}/>
-      <PostComment docId = {followedUser.photoId}  comments = {followedUser.comments}  createdAt = {followedUser.dateCreated} commentInput = {comment}/> */}
+       <Actions likedPhoto ={photosData.likedPhoto} userId = {photosData.userId} docId = {photosData.photoId}  totalLikes = {photosData.likes.length} handleFocus = {handleFocus} />
+      <PostFooter caption= {photosData.caption} Name = {photosData.displayName}/>
+      <PostComment docId = {photosData.photoId}  comments = {photosData.comments}  createdAt = {photosData.dateCreated} commentInput = {comment}/>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import useFollowedUsersData from "../../data/followedUsersData";
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "../../firebase/config";
+import PostWindow from "./postWindow";
 
 export default function ProfileInfo({
   profileUserData,
@@ -59,7 +60,7 @@ export default function ProfileInfo({
   };
 
   return (
-    <div className="items-center flex py-10 ">
+    <div className="items-center flex py-10 space-x-5">
       <div className="container flex space-x-10">
         <img
           src={profileUserData.photoURL}
@@ -106,6 +107,7 @@ export default function ProfileInfo({
           </div>
         </div>
       </div>
+      {disabledButton && <PostWindow />}
     </div>
   );
 }

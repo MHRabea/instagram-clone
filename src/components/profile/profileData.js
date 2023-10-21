@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect  } from "react";
 import ProfileHeader from "./profieHeader";
 import ProfilePhotos from "./profilePhotos";
 import ProfileInfo from "./profileInfo";
@@ -7,6 +7,7 @@ export default function ProfileData({
   profileUserData,
   username,
   loggedInUser,
+  profileUserPhotos
 }) {
   const reducer = (state, newState) => ({ ...state, ...newState });
 
@@ -24,12 +25,12 @@ export default function ProfileData({
     function fetchProfileInfo() {
       dispatch({
         profile: profileUserData.userName,
-        photosCollection: profileUserData.imageSrc,
+        photosCollection: profileUserPhotos,
         followerCount: profileUserData.followers.length,
       });
     }
     fetchProfileInfo();
-  }, [profileUserData]);
+  }, [profileUserData ,profileUserPhotos]);
 
   return (
     <div>
@@ -45,7 +46,7 @@ export default function ProfileData({
           photosCount={photosCollection ? photosCollection.length : 0}
           dispatch={dispatch}
         />
-        <ProfilePhotos photos={photosCollection} likes ={profileUserData.likes.length} comments ={profileUserData.comments.length} caption ={profileUserData.likes.caption} />
+        <ProfilePhotos photos={photosCollection}  />
       </div>
     </div>
   );

@@ -1,14 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
-import usePhotosData from "../../data/photosData";
 
-export default function ProfilePhotos({ photos, caption, likes, comments }) {
-    const usersData = usePhotosData();
-    console.log(usersData)
+export default function ProfilePhotos({ photos}) {
   return (
-    <div className="grid grid-cols-3 gap-4">{
+    <div className="grid grid-cols-4 gap-4 grid-flow-dense">{
         photos.map(photo => (
             <div key={uuidv4()} className="relative group">
-                <img src={photo} alt={caption} />
+                <img src={photo.imageSrc} alt={photo.caption} className="w-96 h-96"/>
                 <div className="absolute bottom-0 left-0 z-10 w-full justify-evenly items-center h-full bg-black-faded group-hover:flex hidden">
                   <p className="flex items-center text-white font-bold">
                     <svg
@@ -23,7 +20,7 @@ export default function ProfilePhotos({ photos, caption, likes, comments }) {
                         clipRule="evenodd"
                       />
                     </svg>
-                    {likes}
+                    {photo.likes.length}
                   </p>
 
                   <p className="flex items-center text-white font-bold">
@@ -39,7 +36,7 @@ export default function ProfilePhotos({ photos, caption, likes, comments }) {
                         clipRule="evenodd"
                       />
                     </svg>
-                    {comments}
+                    {photo.comments.length}
                   </p>
                 </div>
             </div>
