@@ -1,23 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
-import {useState} from "react";
-import {motion} from "framer-motion"
 
 export default function ProfilePhotos({ photos}) {
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
-
-  const handleOpen = (photo) => {
-    setSelectedPhoto(photo);
-  };
-
-  const handleClose = () => {
-    setSelectedPhoto(null);
-  };
+ 
   return (
-    <div className="grid grid-cols-4 gap-4 grid-flow-dense ">{ 
-      
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 grid-flow-dense px-4">{ 
         photos.map(photo => (
-            <div key={uuidv4()} className="relative group">
-                <img src={photo.imageSrc} alt={photo.caption} className="w-96 h-96"/>
+            <div key={uuidv4()} className="relative group ">
+                <img src={photo.imageSrc} alt={photo.caption} className="w-96 h-96 rounded-lg"/>
                 <div className="absolute bottom-0 left-0 z-10 w-full justify-evenly items-center h-full bg-black-faded group-hover:flex hidden">
                   <p className="flex items-center text-white font-bold">
                     <svg

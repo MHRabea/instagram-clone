@@ -10,7 +10,7 @@ export default function Post({ photosData}) {
   const comment = useRef(null);
   const handleFocus = () => comment.current.focus()
   return (
-    <div className=" rounded  w-full mb-4">
+    <div className=" rounded  w-[50rem]  mb-4 flex flex-col flex-wrap">
       <PostHeader photosData = {photosData}/>
       <PostImage photosData={photosData} Image={photosData.imageSrc} />
        <Actions likedPhoto ={photosData.likedPhoto} userId = {photosData.userId} docId = {photosData.photoId}  totalLikes = {photosData.likes.length} handleFocus = {handleFocus} />

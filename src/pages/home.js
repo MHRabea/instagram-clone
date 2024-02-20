@@ -32,6 +32,7 @@ useEffect(()=>{
         flex
         items-center
         max-w-screen
+        flex-wrap
         ">
            <Feed />
            <Sidebar />

@@ -55,7 +55,7 @@ const PostImage = ({ key, Image }) => {
         )}
         {!isEnlarged && (
           <img
-            className="h-full w-full rounded-sm cursor-pointer"
+            className="h-[18rem] w-full rounded-sm cursor-pointer object-cover"
             src={Image}
             alt="postedImg"
             onClick={toggleEnlarged}

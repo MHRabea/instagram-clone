@@ -60,7 +60,7 @@ export default function ProfileInfo({
   };
 
   return (
-    <div className="items-center flex py-10 space-x-5">
+    <div className="items-center flex py-10 space-x-5 flex-wrap justify-center">
       <div className="container flex space-x-10">
         <img
           src={profileUserData.photoURL}
@@ -88,7 +88,7 @@ export default function ProfileInfo({
               {isFollowed ? "Unfollow" : "Follow"}
             </button>
           </div>
-          <div className="flex space-x-5">
+          <div className="flex space-x-5 flex-wrap">
             <p className="flex flex-col items-center font-bold">
               <span className="text-gray-100">Followers</span>
               <span>{followerCount}</span>
