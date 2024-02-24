@@ -7,8 +7,8 @@ function CurrentUser({ userName, fullName, userId, photoURL }) {
 
   return (
     <div
-      className="
-        flex
+      className="hidden
+        md:flex
         mb-5
         w-full
         px-3
@@ -19,7 +19,7 @@ function CurrentUser({ userName, fullName, userId, photoURL }) {
         ease-in-out
         duration-100
         items-center
-        pb-5
+        pb-5 basis-1/4
        
         "
     >

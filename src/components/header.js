@@ -28,7 +28,7 @@ export default function Header({currentUserData}) {
              mx-auto
              max-w-screen
              justify-between
-             px-3
+             px-3 border-b-2 border-black md:border-b-0
              "
       >
         <div className="flex items-center py-3 px-3 space-x-3">

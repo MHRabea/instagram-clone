@@ -29,10 +29,9 @@ useEffect(()=>{
         ease-out
         delay-70
         duration-300
-        flex
+        flex-col flex md:flex-row
         items-center
         max-w-screen
-        flex-wrap
         ">
            <Feed />
            <Sidebar />

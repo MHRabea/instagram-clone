@@ -30,9 +30,8 @@ function Sidebar() {
       flex-col
       basis-1/4
       h-full
-      max-h-full
       w-full
-      items-center overflow-auto overflow-x-hidden
+      items-center  overflow-x-scroll
     "
     >
       {!userData.Loading ? (

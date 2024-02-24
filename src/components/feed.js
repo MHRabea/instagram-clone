@@ -11,7 +11,8 @@ export default function Feed() {
   const {data , loading} = usePhotosData();
 
   return (
-    <div className=" basis-3/4 px-10 overflow-auto   h-full max-h-full rounded-sm items-center flex flex-col w-full">
+    <div className=" basis-3/4 px-10 overflow-auto   h-full max-h-full rounded-sm 
+    items-center flex flex-col w-full">
       {!loading ? (
         data.map((photo) => (
           <Post photosData ={photo} key={uuid()} />
