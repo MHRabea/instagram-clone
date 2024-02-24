@@ -123,21 +123,15 @@ export default function Register() {
   return (
     <div
       className="
-    bg-gradient-to-r from-sky-500 to-red-400
-    overflow-visible
-    flex
-    flex-row
-    w-full
-    max-w-fit
+    bg-gradient-to-r from-sky-500 to-red-400 w-screen h-screen overflow-visible flex flex-col space-y-10 
+    md:flex-row md:space-x-10 max-w-fit
     container
     mx-auto
-    h-screen
-    bg-gray-200
     justify-center
     items-center
     "
     >
-      <div className="flex flex-row w-1/3">
+      <div className="flex flex-row w-1/2 md:w-1/4">
         <img
           src={LogoColor}
           alt="logo img"
