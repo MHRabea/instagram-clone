@@ -14,7 +14,7 @@ export default function Post({ photosData}) {
     mt-3">
       <PostHeader photosData = {photosData}/>
       <PostImage photosData={photosData} Image={photosData.imageSrc} />
-       <Actions likedPhoto ={photosData.likedPhoto} userId = {photosData.userId} docId = {photosData.photoId}  totalLikes = {photosData.likes.length} handleFocus = {handleFocus} />
+      <Actions likedPhoto ={photosData.likedPhoto} userId = {photosData.userId} docId = {photosData.photoId}  totalLikes = {photosData.likes.length} handleFocus = {handleFocus} />
       <PostFooter caption= {photosData.caption} Name = {photosData.displayName}/>
       <PostComment docId = {photosData.photoId}  comments = {photosData.comments}  createdAt = {photosData.dateCreated} commentInput = {comment}/>
     </div>
